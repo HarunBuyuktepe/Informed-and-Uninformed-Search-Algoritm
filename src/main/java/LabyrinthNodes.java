@@ -1,0 +1,55 @@
+public class LabyrinthNodes {
+    long position=0;
+    boolean isVisited = false;
+    Condition cond;
+    boolean[] canGo = new boolean[4];
+    LabyrinthNodes(){}
+    LabyrinthNodes(Long position, boolean isVisited, Condition cond, boolean[] canGo){
+        this.position = position;
+        this.isVisited = isVisited;
+        this.cond = cond;
+        this.canGo = canGo;
+    }
+    public Long getPosition(){
+        return position;
+    }
+    public void setPosition(Long position){
+        this.position=position;
+    }
+    public boolean getIsVisited(){
+        return isVisited;
+    }
+    public Condition getCond(){
+        return cond;
+    }
+    public boolean getCanGo(String way){
+        if (way.equals("up")){
+            return canGo[0];
+        }
+        else if(way.equals("down")){
+            return canGo[1];
+        }
+        else if(way.equals("right")){
+            return canGo[2];
+        }
+        else {
+            return canGo[3];
+        }
+    }
+    public void setCanGo(boolean[] canGo) {
+        this.canGo = canGo;
+    }
+    public void setIsVisited(boolean isVisited){
+        this.isVisited = isVisited;
+    }
+
+    public String toString(){
+
+        return position+" "+"State:"+cond.toString();
+    }
+    enum Condition {
+        Trap,
+        Normal,
+        Goal
+    }
+}

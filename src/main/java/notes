@@ -1,0 +1,121 @@
+public int IDS(Node start, Node goal){
+        int depth = 0; //set starting depth to 0
+        Node current=start; //current node is equal to start
+        int goalNode=0; //goalNode is originally set to 0
+        //List<Node> tempList=new ArrayList<Node>();
+
+        while(goalNode==0){ //while goalNode is equal to 0
+            List<Node> visited=new ArrayList<Node>(); //create an array list of nodes
+            goalNode=DLS(current, goal, depth, visited);
+            depth++; //increment the depth
+        }
+        System.out.println("RESULT");
+        return goalNode;
+    }
+
+    public Node DLS(Node current, int depth) {
+            if (depth == 0 && current == goal) {
+                return current;
+            }
+            if (depth > 0) {
+                for (Node child : current.findNeighbours()) {
+                    Node found = DLS(child, depth - 1);
+                    if (found != null) {
+                        return found;
+                    }
+                }
+            }
+            return null;
+        }
+
+public int DLS(Node current, Node goal, int depth, List<Node> visited){
+        if(depth>=0){
+            if ( current == goal ){ //stop program
+                System.out.println("REACHED GOAL");
+                return current.value;
+            }else{
+                visited.add(current); //add the current node to visited list (in the beginning =start)
+
+                List<Node> temp = Adjacency_List.get(current.value); //get children of current node
+
+                for(Node node: temp){ //for each child
+                    System.out.println("Current Node: "+current.value);
+                    System.out.println(current.value + " - " + node.value);
+                    if(node != null && !visited.contains(node)){
+                        //tempList.add(node);
+                        return DLS(node, goal, depth-1, visited);
+                    }
+                }
+            }
+        }else{
+            return 0;
+        }
+        return 0;
+    }
+
+
+
+
+
+
+
+
+
+BFS(graph, start_node, end_node):
+    frontier = new Queue()
+    frontier.enqueue(start_node)
+    explored = new Set()
+
+    while frontier is not empty:
+        current_node = frontier.dequeue()
+        if current_node in explored: continue
+        if current_node == end_node: return success
+
+        for neighbor in graph.get_neigbhors(current_node):
+            frontier.enqueue(neighbor)
+        explored.add(current_node)
+
+
+
+
+
+
+
+
+
+DFS(graph, start_node, end_node):
+    frontier = new Stack()
+    frontier.push(start_node)
+    explored = new Set()
+    while frontier is not empty:
+        current_node = frontier.pop()
+        if current_node in explored: continue
+        if current_node == end_node: return success
+
+        for neighbor in graph.get_neigbhors(current_node):
+            frontier.push(neighbor)
+        explored.add(current_node)
+
+
+
+
+
+position 0<=p<=63;
+isVisited=False;opsiyonel
+condition=Enum.Trap or way or goal state
+n=0;
+w=1;
+e=0;
+s=1;
+player=//oyuncu nerede
+------------
+node[8][8]
+------------
+willVisitList[[pozition],...]++
+visitedList[[position],...]++
+goalStateList[[position],...]
+------------
+go(technic,startNode)
+willVisitedList.append(node pozition þeys)
+run technique
+-----------
