@@ -3,22 +3,21 @@ import java.util.*;
 public class UCS {
 
     UCS(){}
-
+    int cost=0;
+    ArrayList<LabyrinthNodes> expandedSet = new ArrayList<>();
     ArrayList<LabyrinthNodes> exploredSet = new ArrayList<>();
-
     public Result applyUCS(Maze maze, int startNode){
-        int cost=0;
+
         LabyrinthNodes[] ourMaze = maze.getMaze();
         LabyrinthNodes currentNode = ourMaze[startNode];
 
         PriorityQueue<LabyrinthNodes> priorityQueue = new PriorityQueue<LabyrinthNodes>(64,
                 new Comparator<LabyrinthNodes>(){
-                    //override compare method
                     public int compare(LabyrinthNodes i, LabyrinthNodes j){
-                        if(i.getCond().toString().equals("Trap")){
+                        if(i.fScore>j.fScore){
                             return 1;
                         }
-                        else if (i.getCond().toString().equals("Goal") && !j.getCond().toString().equals("Goal") ){
+                        else if (i.fScore<j.fScore){
                             return -1;
                         }
                         else{
@@ -33,39 +32,70 @@ public class UCS {
 
         while (!priorityQueue.isEmpty() && !success){
             currentNode = priorityQueue.remove();
-            exploredSet.add(currentNode);
-            cost++;
+            expandedSet.add(currentNode);
+
             if (currentNode.getCond().toString().equals("Goal")){
                 success = true;
-                return new Result(exploredSet,exploredSet,cost);
+                exploredSet  = getPath(expandedSet.get(expandedSet.size()-1));
+                return new Result(exploredSet,expandedSet,cost);
             }
-            else if(currentNode.getCond().toString().equals("Trap"))cost+=6;
+
             long position = currentNode.getPosition();
             long left = position - 1;long right = position + 1;
             long up = position - 8;long down = position + 8;
 
 
-            //TODO : method to classify cost
-            if (currentNode.getCanGo("left") && !(exploredSet.contains(ourMaze[(int) left]) )&& !priorityQueue.contains(ourMaze[(int) left]) &&left>=0){
-                priorityQueue.add(ourMaze[(int) left]);
-            }if (currentNode.getCanGo("right") && !(exploredSet.contains(ourMaze[(int) right]) ) && !priorityQueue.contains(ourMaze[(int) right]) && right<=63){
-                priorityQueue.add(ourMaze[(int) right]);
-            }if (currentNode.getCanGo("down") && !(exploredSet.contains(ourMaze[(int) down]) ) && !priorityQueue.contains(ourMaze[(int) down])&&down<=63){
-                priorityQueue.add(ourMaze[(int) down]);
-            }if (currentNode.getCanGo("up") && !(exploredSet.contains(ourMaze[(int) up]) ) && !priorityQueue.contains(ourMaze[(int) up])&& up>=0){
-                priorityQueue.add(ourMaze[(int) up] );
+            
+            ArrayList<LabyrinthNodes> canGo=new ArrayList<>();
+            if (currentNode.getCanGo("left") && !(expandedSet.contains(ourMaze[(int) left]) )&& !priorityQueue.contains(ourMaze[(int) left]) &&left>=0){
+                canGo.add(ourMaze[(int) left]);
+            }if (currentNode.getCanGo("right") && !(expandedSet.contains(ourMaze[(int) right]) ) && !priorityQueue.contains(ourMaze[(int) right]) && right<=63){
+                canGo.add(ourMaze[(int) right]);
+            }if (currentNode.getCanGo("down") && !(expandedSet.contains(ourMaze[(int) down]) ) && !priorityQueue.contains(ourMaze[(int) down])&&down<=63){
+                canGo.add(ourMaze[(int) down]);
+            }if (currentNode.getCanGo("up") && !(expandedSet.contains(ourMaze[(int) up]) ) && !priorityQueue.contains(ourMaze[(int) up])&& up>=0){
+                canGo.add(ourMaze[(int) up] );
             }
-            /*
-            *((queue.contains(child))&&(child.pathCost>(current.pathCost+cost))){
-					child.parent=current;
-					child.pathCost = current.pathCost + cost;
-					queue.remove(child);
-					queue.add(child);
 
-				}
-            * */
+            for(LabyrinthNodes e : canGo){
+                int tempCost= (e.getCond().toString().equals("Trap")) ? 6  : 1;
+                e.fScore=tempCost;
+
+                if(!expandedSet.contains(e) && !priorityQueue.contains(e)){
+                    e.fScore = currentNode.fScore + tempCost;
+                    e.parent = currentNode;
+                    priorityQueue.add(e);
+
+                }
+
+
+                //current path is shorter than previous path found
+                else if((priorityQueue.contains(e))&&(e.fScore>(currentNode.fScore+tempCost))){
+                    e.parent=currentNode;
+                    e.fScore = currentNode.fScore + tempCost;
+                    priorityQueue.remove(e);
+                    priorityQueue.add(e);
+
+                }
+
+            }
+
         }
-        return new Result(exploredSet,exploredSet,cost);
+        exploredSet  = getPath(expandedSet.get(expandedSet.size()-1));
+        return new Result(exploredSet,expandedSet,cost);
+    }
+    public ArrayList<LabyrinthNodes> getPath(LabyrinthNodes target){
+        ArrayList<LabyrinthNodes> path = new ArrayList<LabyrinthNodes>();
+
+        for(LabyrinthNodes node = target; node!=null; node = node.parent){
+            path.add(node);
+            if(node.getCond().toString().equals("Trap"))cost+=6;
+            else cost++;
+        }
+
+        Collections.reverse(path);
+
+        return path;
     }
 
 }

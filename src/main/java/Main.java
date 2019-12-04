@@ -15,7 +15,7 @@ public class Main {
         maze.buildMaze();
         maze.getMaze();
 
-        System.out.println("\nDFS Explored Set");
+        /*System.out.println("\nDFS Explored Set");
         DFS dfs = new DFS();
         Result ExploredSetDFS = dfs.applyDFS(maze,17);
         Iterator<LabyrinthNodes> iterator = ExploredSetDFS.exploredSet.iterator();
@@ -36,11 +36,11 @@ public class Main {
         System.out.println("\nIDS Explored Set");
         IDS ids = new IDS();
         Result ExploredSetIDS = ids.applyIDS(maze,17);
-        Iterator<LabyrinthNodes> iterator2 = ExploredSetIDS.exploredSet.iterator();
+        Iterator<LabyrinthNodes> iterator2 = ExploredSetIDS.expandedSet.iterator();
         System.out.println("Cost of Uniform Cost Search" + " " + ExploredSetIDS.cost);
         while (iterator2.hasNext()) {
             System.out.println(iterator2.next().toString());
-        }
+        }*/
 
         System.out.println("\nUCS Explored Set");
         UCS ucs = new UCS();
@@ -50,5 +50,11 @@ public class Main {
         while (iterator3.hasNext()) {
             System.out.println(iterator3.next().toString());
         }
+        Iterator<LabyrinthNodes> piterator3 = ExploredSetUCS.expandedSet.iterator();
+        System.out.println("Cost of Uniform Cost Search" + " " + ExploredSetUCS.cost);
+        while (piterator3.hasNext()) {
+            System.out.println(piterator3.next().toString());
+        }
+
     }
 }

@@ -4,6 +4,7 @@ import java.util.Iterator;
 public class IDS {
 
     ArrayList<LabyrinthNodes> exploredSet = new ArrayList<>();
+    ArrayList<LabyrinthNodes> expandedSet = new ArrayList<>();
 
     public int getIterativeCost(ArrayList<LabyrinthNodes> exploredSetIDS) {
         int cost=0;
@@ -37,7 +38,7 @@ public class IDS {
 
         System.out.println("Harun Baba on the air");
 
-        return new Result(getExploredSet(exploredSet),exploredSet,getIterativeCost(exploredSet));
+        return new Result(exploredSet,getExploredSet(exploredSet),getIterativeCost(exploredSet));
     }
     public LabyrinthNodes DLS(LabyrinthNodes currentNode,int depth,ArrayList<LabyrinthNodes> exploredSet,LabyrinthNodes[] ourMaze){
         exploredSet.add(currentNode);
