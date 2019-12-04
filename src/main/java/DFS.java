@@ -6,7 +6,8 @@ public class DFS {
     Stack<LabyrinthNodes> frontier = new Stack<>();
     ArrayList<LabyrinthNodes> exploredSet = new ArrayList<>();
 
-    public ArrayList<LabyrinthNodes> applyDFS(Maze maze, int startNode){
+    public Result applyDFS(Maze maze, int startNode){
+        int cost=0;
         LabyrinthNodes[] ourMaze = maze.getMaze();
         frontier.push(ourMaze[startNode]);
         LabyrinthNodes currentNode;
@@ -14,14 +15,16 @@ public class DFS {
         boolean success = false;
         while (!frontier.empty()){
             currentNode = frontier.pop();
+            cost++;
             if (exploredSet.contains(currentNode))continue;
 
             if (currentNode.getCond().equals(LabyrinthNodes.Condition.Goal)){
                 success = true;
                 //System.out.println("goal state "+exploredSet.size()+" "+currentNode.getCond().toString()+" "+currentNode.getPosition());
                 exploredSet.add(currentNode);
-                return exploredSet;
+                return new Result(exploredSet,exploredSet,cost);
             }
+            else if (currentNode.getCond().equals(LabyrinthNodes.Condition.Trap)) cost+=6;
 
             long position = currentNode.getPosition();
             if (currentNode.getCanGo("down")){
@@ -40,6 +43,6 @@ public class DFS {
             exploredSet.add(currentNode);
 
         }
-        return exploredSet;
+        return new Result(exploredSet,exploredSet,cost);
     }
 }

@@ -1,31 +1,32 @@
 import java.util.PriorityQueue;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.Collections;
 import java.util.List;
-import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.ArrayList;
+import java.util.Collections;
 
-//diff between uniform cost search and dijkstra algo is that UCS has a goal
+public class denemeAstar {
 
-public class uniformCostSearch {
+
+    //h scores is the stright-line distance from the current city to Bucharest
     public static void main(String[] args){
 
         //initialize the graph base on the Romania map
-        Node n1 = new Node("Arad");
-        Node n2 = new Node("Zerind");
-        Node n3 = new Node("Oradea");
-        Node n4 = new Node("Sibiu");
-        Node n5 = new Node("Fagaras");
-        Node n6 = new Node("Rimnicu Vilcea");
-        Node n7 = new Node("Pitesti");
-        Node n8 = new Node("Timisoara");
-        Node n9 = new Node("Lugoj");
-        Node n10 = new Node("Mehadia");
-        Node n11 = new Node("Drobeta");
-        Node n12 = new Node("Craiova");
-        Node n13 = new Node("Bucharest");
-        Node n14 = new Node("Giurgiu");
+        Node n1 = new Node("Arad",366);
+        Node n2 = new Node("Zerind",374);
+        Node n3 = new Node("Oradea",380);
+        Node n4 = new Node("Sibiu",253);
+        Node n5 = new Node("Fagaras",178);
+        Node n6 = new Node("Rimnicu Vilcea",193);
+        Node n7 = new Node("Pitesti",98);
+        Node n8 = new Node("Timisoara",329);
+        Node n9 = new Node("Lugoj",244);
+        Node n10 = new Node("Mehadia",241);
+        Node n11 = new Node("Drobeta",242);
+        Node n12 = new Node("Craiova",160);
+        Node n13 = new Node("Bucharest",0);
+        Node n14 = new Node("Giurgiu",77);
 
         //initialize the edges
 
@@ -123,84 +124,18 @@ public class uniformCostSearch {
                 new Edge(n13,90)
         };
 
-        UniformCostSearch(n1,n13);
+        AstarSearch(n1,n13);
 
         List<Node> path = printPath(n13);
 
         System.out.println("Path: " + path);
 
-    }
-
-    public static void UniformCostSearch(Node source, Node goal){
-
-        source.pathCost = 0;
-        PriorityQueue<Node> queue = new PriorityQueue<Node>(20,
-                new Comparator<Node>(){
-
-                    //override compare method
-                    public int compare(Node i, Node j){
-                        if(i.pathCost > j.pathCost){
-                            return 1;
-                        }
-
-                        else if (i.pathCost < j.pathCost){
-                            return -1;
-                        }
-
-                        else{
-                            return 0;
-                        }
-                    }
-                }
-
-        );
-
-        queue.add(source);
-        Set<Node> explored = new HashSet<Node>();
-        boolean found = false;
-
-        //while frontier is not empty
-        while(!queue.isEmpty()&& (found==false)){
-
-            Node current = queue.poll();
-
-            explored.add(current);
-
-            //end if path is found
-            if(current.value.equals(goal.value)){
-                found = true;
-
-            }
-
-            for(Edge e: current.adjacencies){
-                Node child = e.target;
-                double cost = e.cost;
-
-                //add node to queue if node has not been explored
-                if(!explored.contains(child) && !queue.contains(child)){
-                    child.pathCost = current.pathCost + cost;
-                    child.parent = current;
-                    queue.add(child);
-
-                }
-
-                //current path is shorter than previous path found
-                else if((queue.contains(child))&&(child.pathCost>(current.pathCost+cost))){
-                    child.parent=current;
-                    child.pathCost = current.pathCost + cost;
-                    queue.remove(child);
-                    queue.add(child);
-
-                }
-
-            }
-
-        }
 
     }
 
     public static List<Node> printPath(Node target){
         List<Node> path = new ArrayList<Node>();
+
         for(Node node = target; node!=null; node = node.parent){
             path.add(node);
         }
@@ -208,37 +143,94 @@ public class uniformCostSearch {
         Collections.reverse(path);
 
         return path;
+    }
+
+    public static void AstarSearch(Node source, Node goal){
+
+        Set<Node> explored = new HashSet<Node>();
+
+        PriorityQueue<Node> queue = new PriorityQueue<Node>(20,
+                new Comparator<Node>(){
+                    //override compare method
+                    public int compare(Node i, Node j){
+                        if(i.f_scores > j.f_scores){
+                            return 1;
+                        }
+
+                        else if (i.f_scores < j.f_scores){
+                            return -1;
+                        }
+
+                        else{
+                            return 0;
+                        }
+                    }
+
+                }
+        );
+
+        //cost from start
+        source.g_scores = 0;
+
+        queue.add(source);
+        System.out.println(" Quueu"+queue.toString());
+        boolean found = false;
+        int y=1;
+        while((!queue.isEmpty())&&(!found)){
+
+            //the node in having the lowest f_score value
+            Node current = queue.poll();
+
+            explored.add(current);
+
+            //goal found
+            if(current.value.equals(goal.value)){
+                found = true;
+            }
+
+            //check every child of current node
+            for(Edge e : current.adjacencies){
+                System.out.println("current "+ current);
+                Node child = e.target;
+                System.out.println("Child "+child);
+                System.out.println("for içi"+e.target);
+                double cost = e.cost;
+                System.out.println("cost "+cost);
+                double temp_g_scores = current.g_scores + cost;
+                System.out.println("temp_g_scores "+temp_g_scores);
+                double temp_f_scores = temp_g_scores + child.h_scores;
+                System.out.println("temp_f_scores "+temp_f_scores);
+
+
+                //if child node has been evaluated and the newer f_score is higher, skip
+                if((explored.contains(child)) && (temp_f_scores >= child.f_scores)){
+                    System.out.println("-----------"+temp_f_scores+" yeni - child "+child.f_scores);
+                    continue;
+                }
+
+                //else if child node is not in queue or newer f_score is lower
+                else if((!queue.contains(child)) || (temp_f_scores < child.f_scores)){
+                    System.out.println(temp_f_scores+" yeni - child "+child.f_scores);
+                    child.parent = current;
+                    child.g_scores = temp_g_scores;
+                    child.f_scores = temp_f_scores;
+
+                    if(queue.contains(child)){
+                        queue.remove(child);
+                        System.out.println(y+" remove Quueu"+queue.toString());y++;
+                    }
+
+                    queue.add(child);
+                    System.out.println(y+" yeni  Quueu"+queue.toString());y++;
+
+                }
+
+            }
+
+        }
 
     }
 
 }
 
-class Node{
 
-    public final String value;
-    public double pathCost;
-    public Edge[] adjacencies;
-    public Node parent;
-
-    public Node(String val){
-
-        value = val;
-
-    }
-
-    public String toString(){
-        return value;
-    }
-
-}
-
-class Edge{
-    public final double cost;
-    public final Node target;
-
-    public Edge(Node targetNode, double costVal){
-        cost = costVal;
-        target = targetNode;
-
-    }
-}

@@ -3,12 +3,18 @@ public class LabyrinthNodes {
     boolean isVisited = false;
     Condition cond;
     boolean[] canGo = new boolean[4];
+    int gScore=0,fScore=0,hScore=0;
+    LabyrinthNodes parent;
     LabyrinthNodes(){}
     LabyrinthNodes(Long position, boolean isVisited, Condition cond, boolean[] canGo){
         this.position = position;
         this.isVisited = isVisited;
         this.cond = cond;
         this.canGo = canGo;
+        this.gScore=0;
+        this.fScore=0;
+        this.hScore=0;
+        this.parent=null;
     }
     public Long getPosition(){
         return position;

@@ -7,7 +7,8 @@ public class BFS {
     Queue<LabyrinthNodes> frontier = new LinkedList<>();
     ArrayList<LabyrinthNodes> exploredSet = new ArrayList<>();
 
-    public ArrayList<LabyrinthNodes> applyBFS(Maze maze, int startNode){
+    public Result applyBFS(Maze maze, int startNode){
+        int cost=0;
         LabyrinthNodes[] ourMaze = maze.getMaze();
         frontier.add(ourMaze[startNode]);
         LabyrinthNodes currentNode;
@@ -16,15 +17,16 @@ public class BFS {
         while (!frontier.isEmpty()){
             LabyrinthNodes enqueue = frontier.remove();
             currentNode = enqueue;
-
+            cost++;
             if (exploredSet.contains(currentNode))continue;
 
             if (currentNode.getCond().equals(LabyrinthNodes.Condition.Goal)){
                 success = true;
                 //System.out.println("goal state "+exploredSet.size()+" "+currentNode.getCond().toString()+" "+currentNode.getPosition());
                 exploredSet.add(currentNode);
-                return exploredSet;
+                return new Result(exploredSet,exploredSet,cost);
             }
+            else if(currentNode.getCond().equals(LabyrinthNodes.Condition.Trap)) cost+=6;
 
             long position = currentNode.getPosition();
             if (currentNode.getCanGo("up")){
@@ -47,6 +49,6 @@ public class BFS {
         }
 
 
-        return exploredSet;
+        return new Result(exploredSet,exploredSet,cost);
     }
 }
