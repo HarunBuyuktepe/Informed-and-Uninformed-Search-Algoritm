@@ -1,11 +1,11 @@
 import java.util.*;
 
-public class AStarSearch {
+public class GreedyBestFirstSearch {
     int cost=0;
-    AStarSearch(){}
+    GreedyBestFirstSearch(){}
     ArrayList<LabyrinthNodes> expandedSet = new ArrayList<>();
     ArrayList<LabyrinthNodes> exploredSet = new ArrayList<>();
-    public Result applyAstar(Maze maze, int startNode,ArrayList<Long> goals){
+    public Result applyGreedyBestFirstSearch(Maze maze, int startNode,ArrayList<Long> goals){
         calcHvalue(maze,goals,startNode);
 
         LabyrinthNodes[] ourMaze = maze.getMaze();
@@ -14,10 +14,10 @@ public class AStarSearch {
         PriorityQueue<LabyrinthNodes> priorityQueue = new PriorityQueue<LabyrinthNodes>(64,
                 new Comparator<LabyrinthNodes>(){
                     public int compare(LabyrinthNodes i, LabyrinthNodes j){
-                        if(i.fScore>j.fScore){
+                        if(i.hScore>j.hScore){
                             return 1;
                         }
-                        else if (i.fScore<j.fScore){
+                        else if (i.hScore<j.hScore){
                             return -1;
                         }
                         else{
@@ -107,13 +107,13 @@ public class AStarSearch {
         return path;
     }
     public static void main(String[] args){
-        AStarSearch a=new AStarSearch();
+        GreedyBestFirstSearch a=new GreedyBestFirstSearch();
         System.out.println("Harun Baba");
 
         Maze maze = new Maze();
         maze.buildMaze();
         maze.getMaze();
-        Result expandedSetAstar = a.applyAstar(maze,17,maze.getGoalState());
+        Result expandedSetAstar = a.applyGreedyBestFirstSearch(maze,17,maze.getGoalState());
         System.out.println(expandedSetAstar.cost);
         System.out.println("Cost of A Star" + " " + expandedSetAstar.cost);
         Iterator<LabyrinthNodes> iterator4 = expandedSetAstar.expandedSet.iterator();

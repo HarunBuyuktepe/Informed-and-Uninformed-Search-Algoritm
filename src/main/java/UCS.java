@@ -47,12 +47,12 @@ public class UCS {
 
             
             ArrayList<LabyrinthNodes> canGo=new ArrayList<>();
-            if (currentNode.getCanGo("left") && !(expandedSet.contains(ourMaze[(int) left]) )&& !priorityQueue.contains(ourMaze[(int) left]) &&left>=0){
-                canGo.add(ourMaze[(int) left]);
-            }if (currentNode.getCanGo("right") && !(expandedSet.contains(ourMaze[(int) right]) ) && !priorityQueue.contains(ourMaze[(int) right]) && right<=63){
+            if (currentNode.getCanGo("right") && !(expandedSet.contains(ourMaze[(int) right]) ) && !priorityQueue.contains(ourMaze[(int) right]) && right<=63){
                 canGo.add(ourMaze[(int) right]);
             }if (currentNode.getCanGo("down") && !(expandedSet.contains(ourMaze[(int) down]) ) && !priorityQueue.contains(ourMaze[(int) down])&&down<=63){
                 canGo.add(ourMaze[(int) down]);
+            }if (currentNode.getCanGo("left") && !(expandedSet.contains(ourMaze[(int) left]) )&& !priorityQueue.contains(ourMaze[(int) left]) &&left>=0){
+                canGo.add(ourMaze[(int) left]);
             }if (currentNode.getCanGo("up") && !(expandedSet.contains(ourMaze[(int) up]) ) && !priorityQueue.contains(ourMaze[(int) up])&& up>=0){
                 canGo.add(ourMaze[(int) up] );
             }
@@ -96,6 +96,28 @@ public class UCS {
         Collections.reverse(path);
 
         return path;
+    }
+    public static void main(String[] args){
+        UCS a=new UCS();
+        System.out.println("Harun Baba");
+
+        Maze maze = new Maze();
+        maze.buildMaze();
+        maze.getMaze();
+        Result expandedSetAstar = a.applyUCS(maze,17);
+        System.out.println(expandedSetAstar.cost);
+        System.out.println("Cost of UCS" + " " + expandedSetAstar.cost);
+        Iterator<LabyrinthNodes> iterator4 = expandedSetAstar.expandedSet.iterator();
+        while (iterator4.hasNext()) {
+            System.out.println(iterator4.next().toString());
+        }
+        System.out.println("ne");
+        Iterator<LabyrinthNodes> piterator4 = expandedSetAstar.exploredSet.iterator();
+        while (piterator4.hasNext()) {
+            System.out.println(piterator4.next().toString());
+        }
+
+
     }
 
 }

@@ -38,7 +38,7 @@ public class IDS {
 
         System.out.println("Harun Baba on the air");
 
-        return new Result(exploredSet,getExploredSet(exploredSet),getIterativeCost(exploredSet));
+        return new Result(getExploredSet(exploredSet),exploredSet,getIterativeCost(exploredSet));
     }
     public LabyrinthNodes DLS(LabyrinthNodes currentNode,int depth,ArrayList<LabyrinthNodes> exploredSet,LabyrinthNodes[] ourMaze){
         exploredSet.add(currentNode);
@@ -54,6 +54,11 @@ public class IDS {
                 currentNode = ourMaze[(int) right];
                 g=DLS(currentNode,depth-1,exploredSet,ourMaze);
                 if(g!=null) return g;
+            }if (currentNode.getCanGo("down") && (position - 8)>=0){
+                long down = (position - 8);
+                currentNode = ourMaze[(int) down];
+                g=DLS(currentNode,depth-1,exploredSet,ourMaze);
+                if(g!=null) return g;
             }if (currentNode.getCanGo("left")&&(position - 1)>=0){
                 long left = position - 1;
                 currentNode = ourMaze[(int) left];
@@ -64,16 +69,33 @@ public class IDS {
                 currentNode = ourMaze[(int) up];
                 g=DLS(currentNode,depth-1,exploredSet,ourMaze);
                 if(g!=null) return g;
-            }if (currentNode.getCanGo("down") && (position - 8)>=0){
-                long down = (position - 8);
-                currentNode = ourMaze[(int) down];
-                g=DLS(currentNode,depth-1,exploredSet,ourMaze);
-                if(g!=null) return g;
             }
 
         }
 
         return null;
+    }
+    public static void main(String[] args){
+        IDS a=new IDS();
+        System.out.println("Harun Baba");
+
+        Maze maze = new Maze();
+        maze.buildMaze();
+        maze.getMaze();
+        Result expandedSetAstar = a.applyIDS(maze,17);
+        System.out.println(expandedSetAstar.cost);
+        System.out.println("Cost of IDS" + " " + expandedSetAstar.cost);
+        Iterator<LabyrinthNodes> iterator4 = expandedSetAstar.expandedSet.iterator();
+        while (iterator4.hasNext()) {
+            System.out.println(iterator4.next().toString());
+        }
+        System.out.println("ne");
+        Iterator<LabyrinthNodes> piterator4 = expandedSetAstar.exploredSet.iterator();
+        while (piterator4.hasNext()) {
+            System.out.println(piterator4.next().toString());
+        }
+
+
     }
 
 
