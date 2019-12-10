@@ -104,15 +104,15 @@ public class UCS {
         Maze maze = new Maze();
         maze.buildMaze();
         maze.getMaze();
-        Result expandedSetAstar = a.applyUCS(maze,17);
-        System.out.println(expandedSetAstar.cost);
-        System.out.println("Cost of UCS" + " " + expandedSetAstar.cost);
-        Iterator<LabyrinthNodes> iterator4 = expandedSetAstar.expandedSet.iterator();
+        Result set = a.applyUCS(maze,17);
+        System.out.println(set.cost);
+        System.out.println("Cost of UCS" + " " + set.cost);
+        Iterator<LabyrinthNodes> iterator4 = set.expandedSet.iterator();
         while (iterator4.hasNext()) {
             System.out.println(iterator4.next().toString());
         }
         System.out.println("ne");
-        Iterator<LabyrinthNodes> piterator4 = expandedSetAstar.exploredSet.iterator();
+        Iterator<LabyrinthNodes> piterator4 = set.exploredSet.iterator();
         while (piterator4.hasNext()) {
             System.out.println(piterator4.next().toString());
         }
