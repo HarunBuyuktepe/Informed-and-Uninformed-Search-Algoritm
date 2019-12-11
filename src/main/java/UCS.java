@@ -35,8 +35,7 @@ public class UCS {
             expandedSet.add(currentNode);
 
             if (currentNode.getCond().toString().equals("Goal")){
-                success = true;
-                exploredSet  = getPath(expandedSet.get(expandedSet.size()-1));
+                exploredSet  = getPath(expandedSet.get(expandedSet.size()-1));cost++;
                 return new Result(exploredSet,expandedSet,cost);
             }
 
@@ -74,7 +73,7 @@ public class UCS {
                     e.parent=currentNode;
                     e.fScore = currentNode.fScore + tempCost;
                     priorityQueue.remove(e);
-                    priorityQueue.add(e);
+                    priorityQueue.add(currentNode);
 
                 }
 
@@ -98,23 +97,28 @@ public class UCS {
         return path;
     }
     public static void main(String[] args){
-        UCS a=new UCS();
-        System.out.println("Harun Baba");
+        UCS ucs1=new UCS();
+
 
         Maze maze = new Maze();
         maze.buildMaze();
         maze.getMaze();
-        Result set = a.applyUCS(maze,17);
+        Result set =ucs1.applyUCS(maze,17);
         System.out.println(set.cost);
         System.out.println("Cost of UCS" + " " + set.cost);
-        Iterator<LabyrinthNodes> iterator4 = set.expandedSet.iterator();
-        while (iterator4.hasNext()) {
-            System.out.println(iterator4.next().toString());
+        System.out.println("Expanded Path");
+        Iterator<LabyrinthNodes> iterator7 = set.expandedSet.iterator();
+        while (iterator7.hasNext()) {
+            System.out.print(iterator7.next().toString()+" \t-->\t ");
+            if(iterator7.hasNext())
+                System.out.println(iterator7.next().toString());
         }
         System.out.println("ne");
-        Iterator<LabyrinthNodes> piterator4 = set.exploredSet.iterator();
-        while (piterator4.hasNext()) {
-            System.out.println(piterator4.next().toString());
+        Iterator<LabyrinthNodes> piterator7 = set.solutionPath.iterator();
+        while (piterator7.hasNext()) {
+            System.out.print(piterator7.next().toString()+" \t-->\t ");
+            if(piterator7.hasNext())
+                System.out.println(piterator7.next().toString());
         }
 
 

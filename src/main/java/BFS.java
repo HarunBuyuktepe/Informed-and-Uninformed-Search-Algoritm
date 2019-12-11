@@ -77,7 +77,6 @@ public class BFS {
     }
     public static void main(String[] args){
         BFS a=new BFS();
-        System.out.println("Harun Baba");
 
         Maze maze = new Maze();
         maze.buildMaze();
@@ -87,11 +86,13 @@ public class BFS {
         System.out.println("Cost of BFS" + " " + bfs.cost);
         Iterator<LabyrinthNodes> iterator4 = bfs.expandedSet.iterator();
         while (iterator4.hasNext()) {
+            System.out.print(iterator4.next().toString()+" \t-->\t ");
             System.out.println(iterator4.next().toString());
         }
-        System.out.println("ne");
-        Iterator<LabyrinthNodes> piterator4 = bfs.exploredSet.iterator();
+        System.out.println("Solution Path");
+        Iterator<LabyrinthNodes> piterator4 = bfs.solutionPath.iterator();
         while (piterator4.hasNext()) {
+            System.out.print(piterator4.next().toString()+" \t-->\t ");
             System.out.println(piterator4.next().toString());
         }
 

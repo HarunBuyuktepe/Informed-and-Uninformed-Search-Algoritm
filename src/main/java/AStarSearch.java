@@ -116,14 +116,18 @@ public class AStarSearch {
         Result expandedSetAstar = a.applyAstar(maze,17,maze.getGoalState());
         System.out.println(expandedSetAstar.cost);
         System.out.println("Cost of A Star" + " " + expandedSetAstar.cost);
-        Iterator<LabyrinthNodes> iterator4 = expandedSetAstar.expandedSet.iterator();
-        while (iterator4.hasNext()) {
-            System.out.println(iterator4.next().toString());
+        Iterator<LabyrinthNodes> iterator9 = expandedSetAstar.expandedSet.iterator();
+        while (iterator9.hasNext()) {
+            System.out.print(iterator9.next().toString()+" \t-->\t ");
+            if(iterator9.hasNext())
+                System.out.println(iterator9.next().toString());
         }
         System.out.println("ne");
-        Iterator<LabyrinthNodes> piterator4 = expandedSetAstar.exploredSet.iterator();
-        while (piterator4.hasNext()) {
-            System.out.println(piterator4.next().toString());
+        Iterator<LabyrinthNodes> piterator9 = expandedSetAstar.solutionPath.iterator();
+        while (piterator9.hasNext()) {
+            System.out.print(piterator9.next().toString()+" \t-->\t ");
+            if(piterator9.hasNext())
+                System.out.println(piterator9.next().toString());
         }
 
 

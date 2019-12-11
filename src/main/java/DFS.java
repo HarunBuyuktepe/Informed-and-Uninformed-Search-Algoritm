@@ -80,23 +80,27 @@ public class DFS {
         return path;
     }
     public static void main(String[] args){
-        DFS a=new DFS();
-        System.out.println("Harun Baba");
+        DFS dfs1=new DFS();
+
 
         Maze maze = new Maze();
         maze.buildMaze();
         maze.getMaze();
-        Result set = a.applyDFS(maze,17);
+        Result set = dfs1.applyDFS(maze,17);
         System.out.println(set.cost);
         System.out.println("Cost of DFS" + " " + set.cost);
-        Iterator<LabyrinthNodes> iterator4 = set.expandedSet.iterator();
-        while (iterator4.hasNext()) {
-            System.out.println(iterator4.next().toString());
+        System.out.println("Expnaded List");
+        Iterator<LabyrinthNodes> iterator6 = set.expandedSet.iterator();
+        while (iterator6.hasNext()) {
+            System.out.print(iterator6.next().toString()+" \t-->\t ");
+            if(iterator6.hasNext())
+               System.out.println(iterator6.next().toString());
         }
-        System.out.println("ne");
-        Iterator<LabyrinthNodes> piterator4 = set.exploredSet.iterator();
-        while (piterator4.hasNext()) {
-            System.out.println(piterator4.next().toString());
+        System.out.println("\nSolution Path");
+        Iterator<LabyrinthNodes> piterator6 = set.solutionPath.iterator();
+        while (piterator6.hasNext()) {
+            System.out.print(piterator6.next().toString()+" \t-->\t ");
+            System.out.println(piterator6.next().toString());
         }
 
 

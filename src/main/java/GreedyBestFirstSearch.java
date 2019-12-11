@@ -107,23 +107,27 @@ public class GreedyBestFirstSearch {
         return path;
     }
     public static void main(String[] args){
-        GreedyBestFirstSearch a=new GreedyBestFirstSearch();
+        GreedyBestFirstSearch greedyBestFirstSearch=new GreedyBestFirstSearch();
         System.out.println("Harun Baba");
 
         Maze maze = new Maze();
         maze.buildMaze();
         maze.getMaze();
-        Result expandedSetAstar = a.applyGreedyBestFirstSearch(maze,17,maze.getGoalState());
+        Result expandedSetAstar = greedyBestFirstSearch.applyGreedyBestFirstSearch(maze,17,maze.getGoalState());
         System.out.println(expandedSetAstar.cost);
         System.out.println("Cost of A Star" + " " + expandedSetAstar.cost);
-        Iterator<LabyrinthNodes> iterator4 = expandedSetAstar.expandedSet.iterator();
-        while (iterator4.hasNext()) {
-            System.out.println(iterator4.next().toString());
+        Iterator<LabyrinthNodes> iterator8 = expandedSetAstar.expandedSet.iterator();
+        while (iterator8.hasNext()) {
+            System.out.print(iterator8.next().toString()+" \t-->\t ");
+            if(iterator8.hasNext())
+                System.out.println(iterator8.next().toString());
         }
         System.out.println("ne");
-        Iterator<LabyrinthNodes> piterator4 = expandedSetAstar.exploredSet.iterator();
-        while (piterator4.hasNext()) {
-            System.out.println(piterator4.next().toString());
+        Iterator<LabyrinthNodes> piterator8 = expandedSetAstar.solutionPath.iterator();
+        while (piterator8.hasNext()) {
+            System.out.print(piterator8.next().toString()+" \t-->\t ");
+            if(piterator8.hasNext())
+                System.out.println(piterator8.next().toString());
         }
 
 

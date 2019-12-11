@@ -51,7 +51,7 @@ public class LabyrinthNodes {
 
     public String toString(){
 
-        return (position%8+1)+" "+(position/8+1)+" "+"State:"+cond.toString();
+        return "Row: "+(position/8+1)+" Column: "+(position%8+1)+" "+"State: "+cond.toString();
     }
     enum Condition {
         Trap,
