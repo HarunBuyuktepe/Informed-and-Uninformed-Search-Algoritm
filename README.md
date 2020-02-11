@@ -6,10 +6,15 @@ In order to carry out all these searches, we must first introduce the maze to ou
 To create ease of operation I have checked with only one variable that position, we have not introduced as Row and Column. When writing to the terminal, we put it in row and column format.
 
 •	BFS: Depth First Search algorithm was implemented in order to prioritize the nodes in the east, south, west and north directions. If the neighbor has the desired direction, it is added to the frontier. Linked List were used in BFS.
+
 •	DFS: Depth First Search algorithm was implemented in order to prioritize the nodes in the east, south, west and north directions. If the neighbor has the desired direction, it is added to the frontier. Stacks were used in DFS.
+
 •	Iterative Deepening Search: We used recursive method to arrive goal state.
+
 •	Uniform Cost Search:Used to find best solution
+
 •	Greedy Best First Search: We used estimated cost for goal state. Also, we used city block distance (Manhattan distance) as an admissible heuristic.
+
 •	A Star Search: We used estimated cost for goal state with real cost to make decision. Also, we used city block distance (Manhattan distance) as an admissible heuristic.
 
 
