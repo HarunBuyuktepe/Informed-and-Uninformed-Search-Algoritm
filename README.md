@@ -1,5 +1,7 @@
-# aiV2
-AI course project
+# Artificial Intelligence Course First Project
+
+2D maze solver
+
 In this project, we tried to reach one of the goal states from the starting point in a two-dimensional maze. The maze consists of 64 nodes in total and the nodes are of different types; normal, goal and trap. To complete this game successfully, it is our duty to reach one of the goal state from the starting point. To complete this game successfully, use the various search methods the mission of the project. Therefore, we implemented BFS, DFS, Iterative Deepening Search, Uniform Cost Search, Greedy Best First Search and A Star Search algorithms in our project. We have implemented the graph search method in all of the algorithms we use.
 In order to carry out all these searches, we must first introduce the maze to our program. We have created a JSON object for each node of the maze in the JSON file for identification and enumerated to distinguish it. 
   
